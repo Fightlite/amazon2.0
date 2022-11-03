@@ -1,12 +1,20 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react'
+import Image from 'next/image'
 import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
-} from "@heroicons/react/outline";
+} from '@heroicons/react/outline'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
+import { selectItems } from '../slices/basketSlice'
 
 function Header() {
+  const { data: session } = useSession()
+  const router = useRouter()
+  const items = useSelector(selectItems)
+
   return (
     <header>
       {/* Top nav */}
@@ -18,6 +26,7 @@ function Header() {
             height={40}
             objectFit="contain"
             className="cursor-pointer"
+            onClick={() => router.push('/')}
           />
         </div>
 
@@ -32,19 +41,24 @@ function Header() {
 
         {/* Right header */}
         <div className="flex items-center space-x-6 mx-6 text-xs text-white whitespace-nowrap">
-          <div className="link">
-            <p>Hello Bin</p>
+          <div className="link" onClick={session ? signOut : signIn}>
+            <p className="hover:underline">
+              {session ? `Hello, ${session.user.name}` : 'Sign in'}
+            </p>
             <p className="font-extrabold md:text-sm">Account & Lists</p>
           </div>
 
           <div className="link">
-            <p>Returns</p>
+            <p className="hover:underline">Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
 
-          <div className="relative link flex items-center">
+          <div
+            className="relative link flex items-center"
+            onClick={() => router.push('/checkout')}
+          >
             <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black text-bold">
-              0
+              {items ? items.length : 0}
             </span>
             <ShoppingCartIcon className="h-10" />
             <p className="hidden md:inline font-extrabold md:text-sm mt-2">
@@ -69,7 +83,7 @@ function Header() {
         <p className="link hidden lg:inline-flex">Shoper Toolkit</p>
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header
