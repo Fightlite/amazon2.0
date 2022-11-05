@@ -58,7 +58,6 @@ export default async (req, res) => {
         return fulfillOrder(session)
           .then(() => res.status(200))
           .catch((err) => res.status(400).send(`Webhook Error: ${err.message}`))
-        // console.log('Checkout session was successful!')
         break
       case 'payment_method.attached':
         const paymentMethod = event.data.object
@@ -72,9 +71,6 @@ export default async (req, res) => {
     // Return a response to acknowledge receipt of the event
     // res.json({ received: true })
   }
-
-  //   if (request.method === 'GET') {
-  //   }
 }
 
 // make sure get the raw data from the request

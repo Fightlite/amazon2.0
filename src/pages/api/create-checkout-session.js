@@ -47,18 +47,3 @@ export default async (req, res) => {
   }
   // res.redirect(303, session.url)
 }
-
-// const createPrice = async (item) => {
-//   const product = await stripe.products.create({
-//     name: item.title,
-//     description: item.description,
-//     images: [item.image],
-//   })
-
-//   const price = await stripe.prices.create({
-//     product: product.id,
-//     unit_amount: item.price * 100,
-//     currency: 'usd',
-//   })
-// }
-// price: 'price_1M0fRqEZR5nbTE4JsuNlx4kN',
