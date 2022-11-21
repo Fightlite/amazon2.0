@@ -2,27 +2,35 @@ import { StarIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import React from 'react'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Currency from 'react-currency-formatter'
-import { addToBasket } from '../slices/basketSlice'
+import { addToBasket, increaseItem, selectItems } from '../slices/basketSlice'
 
 function Product({ id, title, price, description, category, image, rating }) {
+  const items = useSelector(selectItems)
   const [hasPrime, setHasPrime] = useState(Math.random() < 0.5)
   const dispatch = useDispatch()
 
   const addItemToBasket = () => {
-    const product = {
-      id,
-      title,
-      price,
-      description,
-      category,
-      image,
-      rating,
-      hasPrime,
+    const productExist = items.find((item) => item.id === id)
+
+    if (productExist) {
+      dispatch(increaseItem({ id }))
+    } else {
+      const product = {
+        id,
+        title,
+        price,
+        description,
+        category,
+        image,
+        rating,
+        hasPrime,
+        quantity: 1,
+      }
+      // send the product as an action to the Redux store
+      dispatch(addToBasket(product))
     }
-    // send the product as an action to the Redux store
-    dispatch(addToBasket(product))
   }
 
   return (

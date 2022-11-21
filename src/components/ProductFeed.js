@@ -27,7 +27,7 @@ function ProductFeed({ products }) {
 
       <div className="md:col-span-2">
         {products
-          .slice(4, 6)
+          .slice(4, 5)
           .map(({ id, title, price, description, category, image, rating }) => (
             <Product
               key={id}
@@ -43,7 +43,7 @@ function ProductFeed({ products }) {
       </div>
 
       {products
-        .slice(6, products.length)
+        .slice(5, products.length)
         .map(({ id, title, price, description, category, image, rating }) => (
           <Product
             key={id}
